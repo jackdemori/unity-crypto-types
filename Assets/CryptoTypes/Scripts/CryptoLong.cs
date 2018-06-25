@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SafeTypes
+namespace CryptoTypes
 {
     // Based on a practical tutorial to hack (and protect) Unity games 
     // Alan Zucconi. (2015).
@@ -11,78 +11,86 @@ namespace SafeTypes
     // since it needs to calculate the true value for every operation.
 
     /// <summary>
-    /// Safe Interger type used to prevent memory alteration.
+    /// 64-bit signed integer type used to prevent memory hacking.
     /// </summary>
     [Serializable]
-    public struct sint : IEquatable<int>, IEquatable<sint>, IFormattable
+    public struct CryptoLong : IEquatable<long>, IEquatable<CryptoLong>, IFormattable
     {
         /// <summary>
         /// The value stored in the memory.
         /// </summary>
-        int value;
+        [UnityEngine.SerializeField] long value;
 
         /// <summary>
         /// A random generated offset used to disguise the value stored.
         /// </summary>
-        int offset;
+        [UnityEngine.SerializeField] int offset;
 
         static Random rng = new Random();
 
-        sint(int value)
+        CryptoLong(long value)
         {
-            offset = rng.Next(1000);
+            offset = rng.Next(13);
 
             // The value is camouflaged in memory by adding a random value.
             this.value = value + offset;
         }
 
         /// <summary>
-        /// Returns the true value of this instance. 
+        /// Returns the decrypted value of this instance. 
         /// </summary>
-        int GetValue()
+        long GetValue()
         {
             return value - offset;
         }
 
+        /// <summary>
+        /// Returns the random generated offset.
+        /// </summary>
+        public int GetOffset()
+        {
+            return offset;
+        }
+
         #region OPERATORS
 
-        public static implicit operator float(sint v)
+        public static implicit operator long(CryptoLong v)
         {
             return v.GetValue();
         }
 
-        public static implicit operator sint(int v)
+        public static implicit operator CryptoLong(long v)
         {
-            return new sint(v);
+            return new CryptoLong(v);
         }
 
-        public static sint operator ++(sint i)
+        public static CryptoLong operator ++(CryptoLong i)
         {
-            return new sint(i.GetValue() + 1);
+            return new CryptoLong(i.GetValue() + 1);
         }
 
-        public static sint operator --(sint i)
+        public static CryptoLong operator --(CryptoLong i)
         {
-            return new sint(i.GetValue() + 1);
+            return new CryptoLong(i.GetValue() - 1);
         }
 
         #endregion
 
         #region INTERFACES METHODS AND OVERRIDES
 
-        public bool Equals(int other)
+        public bool Equals(long other)
         {
             return GetValue().Equals(other);
         }
 
-        public bool Equals(sint other)
+        public bool Equals(CryptoLong other)
         {
             return GetValue().Equals(other.GetValue());
         }
 
         public override bool Equals(object obj)
         {
-            return obj.GetType() == GetType() && Equals((sint)obj);
+            return obj.GetType() == GetType() && Equals((CryptoLong)obj);
         }
 
         public override int GetHashCode()
@@ -103,11 +111,11 @@ namespace SafeTypes
         #endregion
 
         /// <summary>
-        /// Use this method to debug the values of this type.
+        /// Use this method to debug the value of this type.
         /// </summary>
         public string Debug()
         {
-            return String.Format("(Stored Value: {0}, Offset: {1}, Value: {2})", value, offset, GetValue());
+            return String.Format(GetType().ToString() + " (Stored Value: {0}, Offset: {1}, Value: {2})", value, offset, GetValue());
         }
     }
 }

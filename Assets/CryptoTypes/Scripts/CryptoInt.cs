@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SafeTypes
+namespace CryptoTypes
 {
     // Based on a practical tutorial to hack (and protect) Unity games 
     // Alan Zucconi. (2015).
@@ -11,68 +11,86 @@ namespace SafeTypes
     // since it needs to calculate the true value for every operation.
 
     /// <summary>
-    /// Safe Single type used to prevent memory alteration.
+    /// 32-bit signed integer type used to prevent memory hacking.
     /// </summary>
     [Serializable]
-    public struct sfloat : IEquatable<float>, IEquatable<sfloat>, IFormattable
+    public struct CryptoInt : IEquatable<int>, IEquatable<CryptoInt>, IFormattable
     {
         /// <summary>
         /// The value stored in the memory.
         /// </summary>
-        float value;
+        [UnityEngine.SerializeField] int value;
 
         /// <summary>
         /// A random generated offset used to disguise the value stored.
         /// </summary>
-        float offset;
+        [UnityEngine.SerializeField] int offset;
 
         static Random rng = new Random();
 
-        sfloat(float value)
+        CryptoInt(int value)
         {
-            offset = rng.Next(1000);
+            offset = rng.Next(17);
 
             // The value is camouflaged in memory by adding a random value.
             this.value = value + offset;
         }
 
         /// <summary>
-        /// Returns the true value of this instance. 
+        /// Returns the decrypted value of this instance.
         /// </summary>
-        float GetValue()
+        int GetValue()
         {
             return value - offset;
         }
 
+        /// <summary>
+        /// Returns the random generated offset.
+        /// </summary>
+        public int GetOffset()
+        {
+            return offset;
+        }
+
         #region OPERATORS
 
-        public static implicit operator float(sfloat v)
+        public static implicit operator int(CryptoInt v)
         {
             return v.GetValue();
         }
 
-        public static implicit operator sfloat(float v)
+        public static implicit operator CryptoInt(int v)
         {
-            return new sfloat(v);
+            return new CryptoInt(v);
+        }
+
+        public static CryptoInt operator ++(CryptoInt i)
+        {
+            return new CryptoInt(i.GetValue() + 1);
+        }
+
+        public static CryptoInt operator --(CryptoInt i)
+        {
+            return new CryptoInt(i.GetValue() - 1);
         }
 
         #endregion
 
         #region INTERFACES METHODS AND OVERRIDES
 
-        public bool Equals(float other)
+        public bool Equals(int other)
         {
             return GetValue().Equals(other);
         }
 
-        public bool Equals(sfloat other)
+        public bool Equals(CryptoInt other)
         {
             return GetValue().Equals(other.GetValue());
         }
 
         public override bool Equals(object obj)
         {
-            return obj.GetType() == GetType() && Equals((sfloat)obj);
+            return obj.GetType() == GetType() && Equals((CryptoInt)obj);
         }
 
         public override int GetHashCode()
@@ -93,11 +111,11 @@ namespace SafeTypes
         #endregion
 
         /// <summary>
-        /// Use this method to debug the values of this type.
+        /// Use this method to debug the value of this type.
         /// </summary>
         public string Debug()
         {
-            return String.Format("(Stored Value: {0}, Offset: {1}, Value: {2})", value, offset, GetValue());
+            return String.Format(GetType().ToString() + " (Stored Value: {0}, Offset: {1}, Value: {2})", value, offset, GetValue());
         }
     }
 }
