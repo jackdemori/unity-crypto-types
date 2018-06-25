@@ -3,27 +3,16 @@ using UnityEngine;
 
 public class CryptoVariables : MonoBehaviour
 {
-    public CryptoDouble a = 1.5f;
+    public CryptoInt a = 1;
     public CryptoLong b = 2;
 
-    public CryptoInt c = 5;
-    public CryptoInt d = 10;
+    public CryptoFloat height = 1.75f;
+    private CryptoDouble pi = 3.141592;
 
     // Use this for initialization
     void Start()
     {
-        Debug.Log("A + B =" + (a + b));
-        Debug.Log("A - B =" + (a - b));
-        Debug.Log("A * B =" + (a * b));
-        Debug.Log("A / B =" + (a / b));
-        Debug.Log("A == B ? " + (a == b));
-        Debug.Log("A != B ? " + (a != b));
-
-        Debug.Log("A = " + a.Debug());
-        Debug.Log("B = " + b.Debug());
-
-        Debug.Log("C + D * C = " + (c + d * c));
-
-        Debug.Log(--c);
+        double random = height * pi + (a * b);
+        Debug.Log(random);
     }
 }
