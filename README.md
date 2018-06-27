@@ -21,7 +21,7 @@ public CryptoLong b = 2;
 public CryptoFloat height = 1.75f;
 private CryptoDouble pi = 3.141592;
 ...
-double random = height * pi + (a * b);
+var random = height * pi + (a * b);
 ```
 
 This library was made using Unity 2017.4.6f1 but it should work in any version from 2017.X.
