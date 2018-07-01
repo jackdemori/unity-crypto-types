@@ -12,7 +12,7 @@ public class CryptoVariables : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        double random = height * pi + (a * b);
+        var random = height * pi + (a * b);
         Debug.Log(random);
     }
 }

@@ -7,8 +7,8 @@ namespace CryptoTypes
     // http://www.alanzucconi.com/2015/09/02/a-practical-tutorial-to-hack-and-protect-unity-games/
 
     // Notes.
-    // Despite being faster than Symmetric encryption, the safe type is not as fast as the built-in type 
-    // since it needs to calculate the true value for every operation.
+    // Despite being faster than Symmetric encryption, the crypto type is not as fast as the built-in type 
+    // since it needs to calculate the true value for each operation.
 
     /// <summary>
     /// 64-bit signed integer type used to prevent memory hacking.
