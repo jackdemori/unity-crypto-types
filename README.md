@@ -24,4 +24,4 @@ private CryptoDouble pi = 3.141592;
 var random = height * pi + (a * b);
 ```
 
-This library was made using Unity 2017.4.6f1 but it should work in any version from 2017.X.
+This library was made using Unity 2018.1.0f2 but it should work in any version from 5.X.
