@@ -3,16 +3,16 @@ using UnityEngine;
 
 public class CryptoVariables : MonoBehaviour
 {
-    public CryptoInt a = 1;
+    public CryptoInt a = 2;
     public CryptoLong b = 2;
 
     public CryptoFloat height = 1.75f;
-    private CryptoDouble pi = 3.141592;
+    public CryptoDouble pi = 3.1415926;
 
-    // Use this for initialization
+    //Use this for initialization
     void Start()
     {
         var random = height * pi + (a * b);
-        Debug.Log(random);
+        Debug.Log(random); 
     }
 }

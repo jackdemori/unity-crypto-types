@@ -14,23 +14,26 @@ namespace CryptoTypes
     /// 64-bit signed integer type used to prevent memory hacking.
     /// </summary>
     [Serializable]
-    public struct CryptoLong : IEquatable<long>, IEquatable<CryptoLong>, IFormattable
+    public partial struct CryptoLong : IEquatable<long>, IEquatable<CryptoLong>, IFormattable
     {
+        /// <summary>
+        /// Represents a pseudo-random number generator, which is a device that produces a sequence of numbers that meet certain statistical requirements for randomness.
+        /// </summary>
+        static RNG random = new RNG(0x3E128EE1u);
+
         /// <summary>
         /// The value stored in the memory.
         /// </summary>
         [UnityEngine.SerializeField] long value;
 
         /// <summary>
-        /// A random generated offset used to disguise the value stored.
+        /// A random generated offset used to disguise the true value of this type.
         /// </summary>
-        [UnityEngine.SerializeField] int offset;
+        [UnityEngine.SerializeField] sbyte offset;
 
-        static Random rng = new Random();
-
-        CryptoLong(long value)
+        CryptoLong (long value)
         {
-            offset = rng.Next(13);
+            offset = random.NextSByte();
 
             // The value is camouflaged in memory by adding a random value.
             this.value = value + offset;
@@ -47,7 +50,7 @@ namespace CryptoTypes
         /// <summary>
         /// Returns the random generated offset.
         /// </summary>
-        public int GetOffset()
+        public sbyte GetOffset ()
         {
             return offset;
         }
@@ -115,7 +118,7 @@ namespace CryptoTypes
         /// </summary>
         public string Debug()
         {
-            return String.Format(GetType().ToString() + " (Stored Value: {0}, Offset: {1}, Value: {2})", value, offset, GetValue());
+            return string.Format(GetType().ToString() + " (Stored Value: {0}, Offset: {1}, Value: {2})", value, offset, GetValue());
         }
     }
 }
