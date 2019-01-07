@@ -3,16 +3,17 @@ using UnityEngine;
 
 public class CryptoVariables : MonoBehaviour
 {
-    public CryptoInt a = 2;
-    public CryptoLong b = 2;
+    public CryptoInt vitality = 100;
 
-    public CryptoFloat height = 1.75f;
-    public CryptoDouble pi = 3.1415926;
-
-    //Use this for initialization
-    void Start()
+    private void Update ()
     {
-        var random = height * pi + (a * b);
-        Debug.Log(random); 
+        if (Input.GetKeyDown(KeyCode.Space))
+            vitality--;
     }
+
+    private void OnGUI ()
+    {
+        GUI.Label(new Rect(30, 30, 100, 24), vitality.ToString());
+    }
+
 }
